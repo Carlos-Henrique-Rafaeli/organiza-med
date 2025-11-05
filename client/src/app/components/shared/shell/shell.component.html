@@ -1,0 +1,70 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          aria-label="Ativar barra de navegação lateral"
+          class="me-2"
+          matIconButton
+          (click)="drawer.toggle()"
+        >
+          <mat-icon aria-label="Ícone ativar barra de navegação lateral">menu</mat-icon>
+        </button>
+      }
+
+      <span class="d-flex align-items-center gap-2">
+        <mat-icon>medical_services</mat-icon>
+        <span class="fs-5">Organiza Med</span>
+      </span>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      @for (item of itensNavbar; track $index) {
+        <a mat-list-item [routerLink]="item.link">
+          <mat-icon matListItemIcon>{{ item.icone }}</mat-icon>
+          {{ item.titulo }}
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          aria-label="Ativar barra de navegação lateral"
+          class="me-2"
+          matIconButton
+          (click)="drawer.toggle()"
+        >
+          <mat-icon aria-label="Ícone ativar barra de navegação lateral">menu</mat-icon>
+        </button>
+
+        <span class="d-flex align-items-center gap-2">
+          <mat-icon>collections_bookmark</mat-icon>
+          <span class="fs-4">Organiza Med</span>
+        </span>
+      }
+      <button mat-raised-button [matMenuTriggerFor]="opcoesUsuario" class="ms-auto">
+        <mat-icon>person</mat-icon>
+        {{ usuarioAutenticado.userName }}
+      </button>
+
+      <mat-menu #opcoesUsuario="matMenu">
+        <button mat-menu-item style="min-width: 160px" (click)="logoutRequisitado.emit()">
+          <mat-icon>arrow_backwards</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
