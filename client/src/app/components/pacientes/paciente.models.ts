@@ -15,3 +15,14 @@ export interface ListagemPacientesModel {
   email: string;
   telefone: string;
 }
+
+export interface CadastrarPacienteModel {
+  nome: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+}
+
+export interface CadastrarPacienteResponseModel {
+  id: string;
+}
