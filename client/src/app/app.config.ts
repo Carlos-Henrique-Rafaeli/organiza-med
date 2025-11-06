@@ -44,6 +44,13 @@ export const routes: Routes = [
     loadComponent: () => import('./components/inicio/inicio').then((c) => c.Inicio),
     canActivate: [usuarioAutenticadoGuard],
   },
+
+  {
+    path: 'pacientes',
+    loadChildren: () =>
+      import('./components/pacientes/paciente.routes').then((r) => r.pacienteRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
