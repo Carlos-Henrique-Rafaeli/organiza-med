@@ -5,6 +5,7 @@ import { inject } from '@angular/core';
 import { ListagemPacientesModel } from './paciente.models';
 import { CadastrarPaciente } from './cadastrar/cadastrar-paciente';
 import { EditarPaciente } from './editar/editar-paciente';
+import { ExcluirPaciente } from './excluir/excluir-paciente';
 
 const listagemPacientesResolver: ResolveFn<ListagemPacientesModel[]> = () => {
   const pacienteService = inject(PacienteService);
@@ -35,6 +36,11 @@ export const pacienteRoutes: Routes = [
       {
         path: 'editar/:id',
         component: EditarPaciente,
+        resolve: { paciente: detalhesPacienteResolver },
+      },
+      {
+        path: 'excluir/:id',
+        component: ExcluirPaciente,
         resolve: { paciente: detalhesPacienteResolver },
       },
     ],

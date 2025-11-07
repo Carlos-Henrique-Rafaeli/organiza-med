@@ -1,0 +1,55 @@
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { filter, map, shareReplay, Observer, take, switchMap } from 'rxjs';
+import { NotificacaoService } from '../../shared/notificacao/notificacao.service';
+import { PacienteService } from '../paciente.service';
+import { DetalhesPacienteModel } from '../paciente.models';
+import { AsyncPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
+@Component({
+  selector: 'app-excluir-paciente',
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    RouterLink,
+    AsyncPipe,
+    FormsModule,
+  ],
+  templateUrl: './excluir-paciente.html',
+})
+export class ExcluirPaciente {
+  protected readonly route = inject(ActivatedRoute);
+  protected readonly router = inject(Router);
+  protected readonly pacienteService = inject(PacienteService);
+  protected readonly notificacaoService = inject(NotificacaoService);
+
+  protected readonly paciente$ = this.route.data.pipe(
+    filter((data) => data['paciente']),
+    map((data) => data['paciente'] as DetalhesPacienteModel),
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
+
+  public excluir() {
+    const exclusaoObserver: Observer<null> = {
+      next: () => this.notificacaoService.sucesso(`O registro foi excluído com sucesso!`),
+      error: (err) => this.notificacaoService.erro(err.message),
+      complete: () => this.router.navigate(['/pacientes']),
+    };
+
+    this.paciente$
+      .pipe(
+        take(1),
+        switchMap((paciente) => this.pacienteService.excluir(paciente.id)),
+      )
+      .subscribe(exclusaoObserver);
+  }
+}

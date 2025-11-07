@@ -32,6 +32,12 @@ export class PacienteService {
     return this.http.put<EditarPacienteResponseModel>(urlCompleto, editarPacienteModel);
   }
 
+  public excluir(id: string): Observable<null> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http.delete<null>(urlCompleto);
+  }
+
   public selecionarTodas(): Observable<ListagemPacientesModel[]> {
     return this.http
       .get<{ sucesso: boolean; dados: ListagemPacientesApiResponse }>(this.apiUrl)
