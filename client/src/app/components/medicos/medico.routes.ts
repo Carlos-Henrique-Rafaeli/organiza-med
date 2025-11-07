@@ -5,6 +5,7 @@ import { ListagemMedicosModel } from './medico.models';
 import { MedicoService } from './medico.service';
 import { CadastrarMedico } from './cadastrar/cadastrar-medico';
 import { EditarMedico } from './editar/editar-medico';
+import { ExcluirMedico } from './excluir/excluir-medico';
 
 const listagemMedicosResolver: ResolveFn<ListagemMedicosModel[]> = () => {
   const medicoService = inject(MedicoService);
@@ -37,11 +38,11 @@ export const medicoRoutes: Routes = [
         component: EditarMedico,
         resolve: { medico: detalhesMedicoResolver },
       },
-      //{
-      //  path: 'excluir/:id',
-      //  component: ExcluirMedico,
-      //  resolve: { medico: detalhesMedicoResolver },
-      //},
+      {
+        path: 'excluir/:id',
+        component: ExcluirMedico,
+        resolve: { medico: detalhesMedicoResolver },
+      },
     ],
     providers: [MedicoService],
   },
