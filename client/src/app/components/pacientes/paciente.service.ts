@@ -7,6 +7,9 @@ import {
   CadastrarPacienteResponseModel,
   ListagemPacientesModel,
   ListagemPacientesApiResponse,
+  EditarPacienteModel,
+  EditarPacienteResponseModel,
+  DetalhesPacienteModel,
 } from './paciente.models';
 
 @Injectable()
@@ -16,16 +19,30 @@ export class PacienteService {
   private readonly apiUrl = environment.apiUrl + '/api/pacientes';
 
   public cadastrar(
-    categoriaModel: CadastrarPacienteModel,
+    pacienteModel: CadastrarPacienteModel,
   ): Observable<CadastrarPacienteResponseModel> {
-    return this.http.post<CadastrarPacienteResponseModel>(this.apiUrl, categoriaModel);
+    return this.http.post<CadastrarPacienteResponseModel>(this.apiUrl, pacienteModel);
+  }
+
+  public editar(
+    id: string,
+    editarPacienteModel: EditarPacienteModel,
+  ): Observable<EditarPacienteResponseModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+    return this.http.put<EditarPacienteResponseModel>(urlCompleto, editarPacienteModel);
   }
 
   public selecionarTodas(): Observable<ListagemPacientesModel[]> {
-    return this.http.get<ListagemPacientesApiResponse>(this.apiUrl).pipe(
-      tap((res) => console.log('Resposta bruta da API:', res)),
-      map((res) => res.dados.registros),
-      tap((registros) => console.log('Registros mapeados:', registros)),
-    );
+    return this.http
+      .get<{ sucesso: boolean; dados: ListagemPacientesApiResponse }>(this.apiUrl)
+      .pipe(map((res) => res.dados.registros));
+  }
+
+  public selecionarPorId(id: string): Observable<DetalhesPacienteModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http
+      .get<{ sucesso: boolean; dados: DetalhesPacienteModel }>(urlCompleto)
+      .pipe(map((res) => res.dados));
   }
 }
