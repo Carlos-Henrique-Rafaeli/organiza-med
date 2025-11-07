@@ -3,6 +3,7 @@ import { ResolveFn, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { ListarMedicos } from './listar/listar-medicos';
 import { ListagemMedicosModel } from './medico.models';
 import { MedicoService } from './medico.service';
+import { CadastrarMedico } from './cadastrar/cadastrar-medico';
 
 const listagemMedicosResolver: ResolveFn<ListagemMedicosModel[]> = () => {
   const medicoService = inject(MedicoService);
@@ -29,7 +30,7 @@ export const medicoRoutes: Routes = [
         component: ListarMedicos,
         resolve: { medicos: listagemMedicosResolver },
       },
-      //{ path: 'cadastrar', component: CadastrarMedico },
+      { path: 'cadastrar', component: CadastrarMedico },
       //{
       //path: 'editar/:id',
       //  component: EditarMedico,
