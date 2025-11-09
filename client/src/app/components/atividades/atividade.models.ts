@@ -12,6 +12,18 @@ export interface ListagemAtividadesModel {
   medicos: MedicoAtividadeModel[];
 }
 
+export interface CadastrarAtividadeModel {
+  tipoAtividade: string;
+  inicio: Date;
+  termino: Date;
+  pacienteId: string;
+  medicos: string[];
+}
+
+export interface CadastrarAtividadeResponseModel {
+  id: string;
+}
+
 export interface DetalhesAtividadeModel {
   id: string;
   tipoAtividade: string;
