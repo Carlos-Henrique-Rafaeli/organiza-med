@@ -63,7 +63,12 @@ export class CadastrarPaciente {
         this.notificacaoService.sucesso(
           `O registro "${pacienteModel.nome}" foi cadastrado com sucesso!`,
         ),
-      error: (err) => this.notificacaoService.erro(err.message),
+      error: (err) => {
+        const msg =
+          err.error?.erros?.[0] || err.error?.message || err.message || 'Erro desconhecido.';
+
+        this.notificacaoService.erro(msg);
+      },
       complete: () => this.router.navigate(['/pacientes']),
     };
 

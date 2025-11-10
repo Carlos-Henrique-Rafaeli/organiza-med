@@ -37,7 +37,7 @@ public class InserirPacienteRequestHandler(
         var medicosRegistrados = await repositorioPaciente.SelecionarTodosAsync();
 
         if (CpfDuplicado(paciente, medicosRegistrados))
-            return Result.Fail(PacienteErrorResults.CpfDuplicadoError(paciente.Nome));
+            return Result.Fail(PacienteErrorResults.CpfDuplicadoError(paciente.Cpf));
 
         try
         {

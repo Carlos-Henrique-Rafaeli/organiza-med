@@ -7,7 +7,6 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { ListagemAtividadesModel } from '../atividade.models';
 import { AtividadeService } from '../atividade.service';
-import { Inicio } from '../../inicio/inicio';
 
 @Component({
   selector: 'app-listar-atividades',

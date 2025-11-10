@@ -56,7 +56,12 @@ export class Registro {
     const registroModel: RegistroModel = this.registroForm.value;
 
     const registroObserver: PartialObserver<AccessTokenModel> = {
-      error: (err) => this.notificacaoService.erro(err.message),
+      error: (err) => {
+        const msg =
+          err.error?.erros?.[0] || err.error?.message || err.message || 'Erro desconhecido.';
+
+        this.notificacaoService.erro(msg);
+      },
       complete: () => this.router.navigate(['/inicio']),
     };
 

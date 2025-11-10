@@ -51,7 +51,12 @@ export class Login {
     const loginModel: LoginModel = this.loginForm.value;
 
     const loginObserver: PartialObserver<AccessTokenModel> = {
-      error: (err) => this.notificacaoService.erro(err.message),
+      error: (err) => {
+        const msg =
+          err.error?.erros?.[0] || err.error?.message || err.message || 'Erro desconhecido.';
+
+        this.notificacaoService.erro(msg);
+      },
       complete: () => this.router.navigate(['/inicio']),
     };
 
