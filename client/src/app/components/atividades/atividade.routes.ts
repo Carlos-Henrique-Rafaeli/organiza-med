@@ -8,6 +8,7 @@ import { PacienteService } from '../pacientes/paciente.service';
 import { MedicoService } from '../medicos/medico.service';
 import { ListagemPacientesModel } from '../pacientes/paciente.models';
 import { ListagemMedicosModel } from '../medicos/medico.models';
+import { EditarAtividade } from './editar/editar-atividade';
 
 const listagemAtividadesResolver: ResolveFn<ListagemAtividadesModel[]> = () => {
   const atividadeService = inject(AtividadeService);
@@ -15,15 +16,15 @@ const listagemAtividadesResolver: ResolveFn<ListagemAtividadesModel[]> = () => {
   return atividadeService.selecionarTodas();
 };
 
-// const detalhesAtividadeResolver = (route: ActivatedRouteSnapshot) => {
-//   const atividadeService = inject(AtividadeService);
+const detalhesAtividadeResolver = (route: ActivatedRouteSnapshot) => {
+  const atividadeService = inject(AtividadeService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const atividadeId = route.paramMap.get('id')!;
+  const atividadeId = route.paramMap.get('id')!;
 
-//   return atividadeService.selecionarPorId(atividadeId);
-// };
+  return atividadeService.selecionarPorId(atividadeId);
+};
 
 const listagemPacientesResolver: ResolveFn<ListagemPacientesModel[]> = () => {
   const pacienteService = inject(PacienteService);
@@ -51,11 +52,15 @@ export const atividadeRoutes: Routes = [
         component: CadastrarAtividade,
         resolve: { pacientes: listagemPacientesResolver, medicos: listagemMedicosResolver },
       },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarAtividade,
-      //   resolve: { atividade: detalhesAtividadeResolver },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarAtividade,
+        resolve: {
+          pacientes: listagemPacientesResolver,
+          medicos: listagemMedicosResolver,
+          atividade: detalhesAtividadeResolver,
+        },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirAtividade,

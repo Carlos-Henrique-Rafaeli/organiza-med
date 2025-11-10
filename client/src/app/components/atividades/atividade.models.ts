@@ -6,8 +6,8 @@ export interface ListagemAtividadesApiResponse {
 export interface ListagemAtividadesModel {
   id: string;
   tipoAtividade: string;
-  dataInicio: Date;
-  dataTermino: Date;
+  inicio: Date;
+  termino: Date;
   paciente: PacienteAtividadeModel;
   medicos: MedicoAtividadeModel[];
 }
@@ -24,11 +24,27 @@ export interface CadastrarAtividadeResponseModel {
   id: string;
 }
 
+export interface EditarAtividadeModel {
+  tipoAtividade: string;
+  inicio: Date;
+  termino: Date;
+  pacienteId: string;
+  medicos: string[];
+}
+
+export interface EditarAtividadeResponseModel {
+  tipoAtividade: string;
+  inicio: Date;
+  termino: Date;
+  pacienteId: string;
+  medicos: string[];
+}
+
 export interface DetalhesAtividadeModel {
   id: string;
   tipoAtividade: string;
-  dataInicio: Date;
-  dataTermino: Date;
+  inicio: Date;
+  termino: Date;
   paciente: PacienteAtividadeModel;
   medicos: MedicoAtividadeModel[];
 }

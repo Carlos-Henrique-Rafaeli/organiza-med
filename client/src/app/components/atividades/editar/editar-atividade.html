@@ -1,0 +1,122 @@
+<section class="row justify-content-center">
+  <div class="col-md-11 col-xl-8">
+    <h2>Edição de Atividade Médica</h2>
+    <hr />
+
+    <mat-card class="p-2">
+      @if (atividade$ | async) {
+        <form [formGroup]="atividadeForm" (ngSubmit)="editar()">
+          <mat-card-header>
+            <mat-card-title>Preencha o formulário de edição</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="mt-5">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tipo de Atividade:</mat-label>
+              <mat-select formControlName="tipoAtividade">
+                @for (tipo of tipos; track $index) {
+                  <mat-option [value]="tipo">{{ tipo }}</mat-option>
+                }
+              </mat-select>
+
+              @if (tipoAtividade?.errors?.['required']) {
+                <mat-error>O Tipo é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <div class="flex gap-2">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Data de Início</mat-label>
+                <input matInput [matDatepicker]="pickerInicioDate" formControlName="inicio" />
+                <mat-datepicker-toggle matSuffix [for]="pickerInicioDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerInicioDate></mat-datepicker>
+                @if (inicio?.errors?.['required']) {
+                  <mat-error>Data de Início é obrigatória.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Horário de Início</mat-label>
+                <input matInput [matTimepicker]="pickerIncioTime" formControlName="inicioHora" />
+                <mat-timepicker-toggle [for]="pickerIncioTime" matSuffix />
+                <mat-timepicker #pickerIncioTime />
+                @if (inicioHora?.errors?.['required']) {
+                  <mat-error>Horário de Início é obrigatória.</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="flex gap-2">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Data de Término</mat-label>
+                <input matInput [matDatepicker]="pickerTerminoDate" formControlName="termino" />
+                <mat-datepicker-toggle matSuffix [for]="pickerTerminoDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTerminoDate></mat-datepicker>
+                @if (termino?.errors?.['required']) {
+                  <mat-error>Data de Término é obrigatória.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Horário de Término</mat-label>
+                <input matInput [matTimepicker]="pickerTerminoTime" formControlName="terminoHora" />
+                <mat-timepicker-toggle [for]="pickerTerminoTime" matSuffix />
+                <mat-timepicker #pickerTerminoTime />
+                @if (terminoHora?.errors?.['required']) {
+                  <mat-error>Horário de Término é obrigatória.</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Paciente</mat-label>
+              <mat-select formControlName="pacienteId">
+                @for (paciente of paciente$ | async; track $index) {
+                  <mat-option [value]="paciente.id">{{ paciente.nome }}</mat-option>
+                }
+              </mat-select>
+
+              @if (pacienteId?.errors?.['required']) {
+                <mat-error>O Paciente é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Médicos:</mat-label>
+              @if (tipoAtividade?.value === 'Cirurgia') {
+                <mat-select formControlName="medicos" multiple>
+                  @for (medico of medicos$ | async; track $index) {
+                    <mat-option [value]="medico.id">{{ medico.nome }}</mat-option>
+                  }
+                </mat-select>
+              } @else {
+                <mat-select formControlName="medicos">
+                  @for (medico of medicos$ | async; track $index) {
+                    <mat-option [value]="medico.id">{{ medico.nome }}</mat-option>
+                  }
+                </mat-select>
+              }
+
+              @if (medicos?.errors?.['required']) {
+                <mat-error>O Médico é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <a mat-stroked-button routerLink="/atividades">Voltar</a>
+            <button
+              type="submit"
+              [disabled]="atividadeForm.invalid"
+              mat-flat-button
+              class="ms-2 px-5"
+            >
+              <mat-icon>check</mat-icon>
+              Concluir
+            </button>
+          </mat-card-actions>
+        </form>
+      }
+    </mat-card>
+  </div>
+</section>

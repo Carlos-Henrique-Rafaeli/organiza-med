@@ -7,6 +7,9 @@ import {
   ListagemAtividadesApiResponse,
   CadastrarAtividadeModel,
   CadastrarAtividadeResponseModel,
+  DetalhesAtividadeModel,
+  EditarAtividadeModel,
+  EditarAtividadeResponseModel,
 } from './atividade.models';
 
 @Injectable()
@@ -21,9 +24,25 @@ export class AtividadeService {
     return this.http.post<CadastrarAtividadeResponseModel>(this.apiUrl, atividadeModel);
   }
 
+  public editar(
+    id: string,
+    editarAtividadeModel: EditarAtividadeModel,
+  ): Observable<EditarAtividadeResponseModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+    return this.http.put<EditarAtividadeResponseModel>(urlCompleto, editarAtividadeModel);
+  }
+
   public selecionarTodas(): Observable<ListagemAtividadesModel[]> {
     return this.http
       .get<{ sucesso: boolean; dados: ListagemAtividadesApiResponse }>(this.apiUrl)
       .pipe(map((res) => res.dados.registros));
+  }
+
+  public selecionarPorId(id: string): Observable<DetalhesAtividadeModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http
+      .get<{ sucesso: boolean; dados: DetalhesAtividadeModel }>(urlCompleto)
+      .pipe(map((res) => res.dados));
   }
 }

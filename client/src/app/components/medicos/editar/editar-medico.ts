@@ -74,7 +74,6 @@ export class EditarMedico {
     this.medico$
       .pipe(
         take(1),
-        tap((medico) => console.log('Medico carregado:', medico)),
         switchMap((medico) => this.medicoService.editar(medico.id, editarMedicoModel)),
       )
       .subscribe(edicaoObserver);
