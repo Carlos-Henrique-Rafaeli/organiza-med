@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
@@ -38,9 +38,15 @@ export class AtividadeService {
     return this.http.delete<null>(urlCompleto);
   }
 
-  public selecionarTodas(): Observable<ListagemAtividadesModel[]> {
+  public selecionarTodas(tipoAtividade?: string): Observable<ListagemAtividadesModel[]> {
+    let params = new HttpParams();
+
+    if (tipoAtividade) {
+      params = params.set('tipoAtividade', tipoAtividade);
+    }
+
     return this.http
-      .get<{ sucesso: boolean; dados: ListagemAtividadesApiResponse }>(this.apiUrl)
+      .get<{ sucesso: boolean; dados: ListagemAtividadesApiResponse }>(this.apiUrl, { params })
       .pipe(map((res) => res.dados.registros));
   }
 
