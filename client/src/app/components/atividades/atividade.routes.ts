@@ -9,6 +9,7 @@ import { MedicoService } from '../medicos/medico.service';
 import { ListagemPacientesModel } from '../pacientes/paciente.models';
 import { ListagemMedicosModel } from '../medicos/medico.models';
 import { EditarAtividade } from './editar/editar-atividade';
+import { ExcluirAtividade } from './excluir/excluir-atividade';
 
 const listagemAtividadesResolver: ResolveFn<ListagemAtividadesModel[]> = () => {
   const atividadeService = inject(AtividadeService);
@@ -61,11 +62,11 @@ export const atividadeRoutes: Routes = [
           atividade: detalhesAtividadeResolver,
         },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirAtividade,
-      //   resolve: { atividade: detalhesAtividadeResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirAtividade,
+        resolve: { atividade: detalhesAtividadeResolver },
+      },
     ],
     providers: [AtividadeService, PacienteService, MedicoService],
   },

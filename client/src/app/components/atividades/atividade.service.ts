@@ -32,6 +32,12 @@ export class AtividadeService {
     return this.http.put<EditarAtividadeResponseModel>(urlCompleto, editarAtividadeModel);
   }
 
+  public excluir(id: string): Observable<null> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http.delete<null>(urlCompleto);
+  }
+
   public selecionarTodas(): Observable<ListagemAtividadesModel[]> {
     return this.http
       .get<{ sucesso: boolean; dados: ListagemAtividadesApiResponse }>(this.apiUrl)
