@@ -56,7 +56,7 @@ jobs:
         run: dotnet tool install --global dotnet-ef
 
       - name: Apply EF Core migrations
-        run: dotnet ef database update --project ./OrganizaWeb.WebApi
+        run: dotnet ef database update --project ./web-api
         env:
           SQL_CONNECTION_STRING: ${{ secrets.SQL_CONNECTION_STRING }}
 
