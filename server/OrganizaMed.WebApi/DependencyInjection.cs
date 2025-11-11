@@ -36,7 +36,7 @@ public static class DependencyInjection
 
             optionsBuilder.UseSqlServer(connectionString, dbOptions =>
             {
-                dbOptions.EnableRetryOnFailure();
+                dbOptions.EnableRetryOnFailure(3);
             });
         });
     }
