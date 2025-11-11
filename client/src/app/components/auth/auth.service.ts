@@ -13,7 +13,7 @@ import {
   map,
 } from 'rxjs';
 import { AccessTokenModel, RegistroModel, LoginModel } from './auth.models';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { obterOpcoesHeaderAutorizacao } from '../../util/obter-opcoes-header-autorizacao';
 
 @Injectable()
